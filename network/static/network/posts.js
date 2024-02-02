@@ -5,7 +5,8 @@
     })
 
     document.querySelector('.edit-post').addEventListener('click', function () {
-        let postId = this.id.split("editPost")[1]
+        let postId = this.dataset.postid;
+        console.log(postId);
         editPost(postId);
     });
 
@@ -63,7 +64,7 @@ function savePost(postId, content) {
         .then(response => {
             if (response.ok) {
                 // Handle post update success
-                document.getElementById(postId).innerHTML = content.replace(/\n/g, '<br>');
+                document.querySelector(`.post-content[data-postid=${postId}]`).innerHTML = content.replace(/\n/g, '<br>');
                 // Go back to Posts view
                 document.querySelector('.posts-view').style.display = 'block';
                 document.querySelector('.editor-container').style.display = 'none';
