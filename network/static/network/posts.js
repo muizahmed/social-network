@@ -44,7 +44,6 @@ function editPost(postId) {
 }
 
 function savePost(postId, content) {
-    window.history.pushState({ view: 'posts' }, '');
     // Get CSRFToken
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
