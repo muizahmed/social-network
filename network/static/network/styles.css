@@ -16,3 +16,12 @@
 .editor-container {
     display: none;
 }
+
+.like-button {
+    display: inline;
+    cursor: pointer;
+}
+
+.like-button:hover {
+    color: #007bff;
+}

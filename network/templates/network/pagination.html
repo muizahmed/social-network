@@ -12,8 +12,8 @@
       {% if num == page_obj.number %}
         <li class="page-item active" aria-current="page">
           <span class="page-link">
-            {{ num }}
-            {% comment %} <span class="sr-only">(current)</span> {% endcomment %}
+            <span class="active-page-number">{{ num }}</span>
+            <span class="sr-only">(current)</span>
           </span>
         </li>
       {% else %}

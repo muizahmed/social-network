@@ -4,7 +4,6 @@
   {% block posts %}
     {% include 'network/posts-block.html' %}
   {% endblock %}
-  {% csrf_token %}
   <div class="editor-container">
     <textarea class="form-control post-editor" name="content"></textarea>
     <input class="btn btn-primary save-edits" type="submit" value="Post" />

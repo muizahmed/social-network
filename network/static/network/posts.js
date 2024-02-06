@@ -1,14 +1,24 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('click', function () {
-        console.log(window.history);
-        console.log(window.history.state);
+
+    // Render Likes
+    renderLikes();
+
+    // Add click event listeners to buttons
+    document.querySelectorAll('.edit-post').forEach(element => {
+        element.addEventListener('click', function () {
+            document.querySelector('.post-container')
+            let postId = findParent(this, 'post-container').dataset.postid;
+            editPost(postId);
+        })
     })
 
-    document.querySelector('.edit-post').addEventListener('click', function () {
-        let postId = this.dataset.postid;
-        console.log(postId);
-        editPost(postId);
-    });
+    document.querySelectorAll('.like-button').forEach(element => {
+        element.addEventListener('click', function () {
+            let postId = findParent(this, 'post-container').dataset.postid;
+            let icon = findParent(this, 'post-container').querySelector('.like-button')
+            likeButton(postId, icon);
+        })
+    })
 
     // Maintain Browser History
     window.addEventListener('popstate', function (event) {
@@ -20,7 +30,7 @@
             document.querySelector('.posts-view').style.display = 'none';
             document.querySelector('.editor-container').style.display = 'block';
         }
-    });
+    })
 })
 
 function editPost(postId) {
@@ -45,15 +55,12 @@ function editPost(postId) {
 }
 
 function savePost(postId, content) {
-    // Get CSRFToken
-    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // Send the edited post back to the server
     fetch(`/posts/${postId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
         },
         body: JSON.stringify({
             content: content
@@ -64,7 +71,7 @@ function savePost(postId, content) {
         .then(response => {
             if (response.ok) {
                 // Handle post update success
-                document.querySelector(`.post-content[data-postid=${postId}]`).innerHTML = content.replace(/\n/g, '<br>');
+                document.querySelector(`[data-postid="${postId}"] .post-content`).innerHTML = content.replace(/\n/g, '<br>');
                 // Go back to Posts view
                 document.querySelector('.posts-view').style.display = 'block';
                 document.querySelector('.editor-container').style.display = 'none';
@@ -73,4 +80,71 @@ function savePost(postId, content) {
         .catch(error => {
             console.log("Content not updated.", error)
         })
+}
+
+function pagePosts() {
+    let posts = document.querySelectorAll('[data-postid]');
+    let postIdArray = [];
+
+    for (let post of posts) {
+        postIdArray.push(post.getAttribute('data-postid'));
+    }
+
+    return postIdArray;
+}
+
+function renderLikes() {
+    pagePosts().forEach(postId => {
+        fetch(`posts/${postId}/like`)
+            .then(response => response.json())
+            .then(likes => {
+                // Render Likes Count
+                let likeElement = document.querySelector(`[data-postid="${postId}"] .post-likes`);
+                let likeCount = likeElement.querySelector('.like-count');
+                likeCount.innerHTML = ` ${likes.like_count}`;
+
+                // Render Like Button styling
+                let likeIcon = likeElement.querySelector('.like-button');
+                if (likes.user_liked) {
+                    likeIcon.classList.add('liked');
+                    likeIcon.innerHTML = '<i class="fa-solid fa-thumbs-up"></i>';
+                }
+                else {
+                    likeIcon.classList.remove('liked');
+                    likeIcon.innerHTML = '<i class="fa-regular fa-thumbs-up"></i>';
+                }
+            });
+    });
+
+    // Update likes every 5 seconds
+    setInterval(renderLikes, 5000);
+}
+
+function likeButton(postId, icon) {
+    fetch(`posts/${postId}/like`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "postId": postId
+        })
+    })
+        .then(response => {
+            if (response.ok) {
+                renderLikes();
+            }
+        })
+}
+
+
+// Helper Functions
+function findParent(childElement, parentClass) {
+    // Look for a parent with a specific class
+    parent = childElement.parentElement;
+    while (parent != null && !parent.classList.contains(parentClass)) {
+        childElement = parent;
+        parent = childElement.parentElement;
+    }
+    return parent;
 }

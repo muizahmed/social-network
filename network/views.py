@@ -3,11 +3,12 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
 from django.db import IntegrityError
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .models import User, Post, Like, Follow
+from .models import User, Post
 
 
 def index(request):
@@ -31,7 +32,7 @@ def posts_view(request):
 
     # View for posts from Following
     if request.path == reverse('following_view'):
-        following = list((request.user).following.all())
+        following = list((request.user).followings.all())
         posts = Post.objects.filter(author__in=following)
 
     # All Posts view
@@ -54,6 +55,7 @@ def profile_view(request, username):
     return render(request, "network/profile.html", context)
 
 
+@csrf_exempt
 def get_post(request, post_id):
     post = Post.objects.get(pk=post_id)
 
@@ -64,10 +66,31 @@ def get_post(request, post_id):
         data = json.loads(request.body)
         if data.get("content") is not None:
             post.content = data["content"]
-            print(post.content)
         post.save()
 
         return redirect('index')
+
+
+@csrf_exempt
+def like(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    liked = request.user.liked.all()
+    if request.method == "GET":
+        user_liked = False
+        if post in liked:
+            user_liked = True
+        likes = {"like_count": post.likes.count(), "user_liked": user_liked}
+        return JsonResponse(likes)
+
+    if request.method == "PUT":
+        if post in liked:
+            request.user.liked.remove(post)
+        else:
+            request.user.liked.add(post)
+        post.save()
+        request.user.save()
+
+    return JsonResponse({"message": "Success"})
 
 
 def login_view(request):
