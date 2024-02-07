@@ -23,7 +23,15 @@ def post(request):
         new_post = Post(author=request.user, content=content)
         new_post.save()
 
-    return redirect('index')
+    return redirect('posts_view')
+
+
+def paginate_posts(request, posts):
+    ordered_posts = posts.order_by('-posted_at')
+    paginator = Paginator(ordered_posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return page_obj
 
 
 def posts_view(request):
@@ -39,11 +47,7 @@ def posts_view(request):
     else:
         posts = Post.objects.all()
 
-    posts = posts.order_by('-posted_at')
-    paginator = Paginator(posts, 2)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
+    page_obj = paginate_posts(request, posts)
     context = {"posts": posts, 'page_obj': page_obj}
 
     return render(request, "network/posts.html", context)
@@ -51,7 +55,9 @@ def posts_view(request):
 
 def profile_view(request, username):
     user = User.objects.get(username=username)
-    context = {"user": user, "posts": user.posts.all()}
+    posts =  user.posts.all()
+    page_obj = paginate_posts(request, posts)
+    context = {"user": user, "page_obj": page_obj}
     return render(request, "network/profile.html", context)
 
 
@@ -82,7 +88,7 @@ def like(request, post_id):
         likes = {"like_count": post.likes.count(), "user_liked": user_liked}
         return JsonResponse(likes)
 
-    if request.method == "PUT":
+    elif request.method == "PUT":
         if post in liked:
             request.user.liked.remove(post)
         else:

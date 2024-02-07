@@ -1,7 +1,21 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
 
+    // Maintain Browser History
+    window.addEventListener('popstate', function (event) {
+        if (event.state === null) {
+            document.querySelector('.posts-view').style.display = 'block';
+            document.querySelector('.editor-container').style.display = 'none';
+        }
+        if (event.state.view === 'editor') {
+            document.querySelector('.posts-view').style.display = 'none';
+            document.querySelector('.editor-container').style.display = 'block';
+        }
+    })
+
     // Render Likes
-    renderLikes();
+    if (window.location.pathname != '/') {
+        renderLikes();
+    }
 
     // Add click event listeners to buttons
     document.querySelectorAll('.edit-post').forEach(element => {
@@ -19,18 +33,6 @@
             likeButton(postId, icon);
         })
     })
-
-    // Maintain Browser History
-    window.addEventListener('popstate', function (event) {
-        if (event.state === null) {
-            document.querySelector('.posts-view').style.display = 'block';
-            document.querySelector('.editor-container').style.display = 'none';
-        }
-        else if (event.state.view === 'editor') {
-            document.querySelector('.posts-view').style.display = 'none';
-            document.querySelector('.editor-container').style.display = 'block';
-        }
-    })
 })
 
 function editPost(postId) {
@@ -43,7 +45,7 @@ function editPost(postId) {
     let editor = document.querySelector('.post-editor')
 
     // Fetch the original post content from the server
-    fetch(`/posts/${postId}`)
+    fetch(`posts/${postId}`)
         .then(response => response.json())
         .then(post => {
             editor.value = post.content;
@@ -57,7 +59,7 @@ function editPost(postId) {
 function savePost(postId, content) {
 
     // Send the edited post back to the server
-    fetch(`/posts/${postId}`, {
+    fetch(`posts/${postId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -68,14 +70,12 @@ function savePost(postId, content) {
     })
 
         // Go back to all posts page and show updated content
-        .then(response => {
-            if (response.ok) {
-                // Handle post update success
-                document.querySelector(`[data-postid="${postId}"] .post-content`).innerHTML = content.replace(/\n/g, '<br>');
-                // Go back to Posts view
-                document.querySelector('.posts-view').style.display = 'block';
-                document.querySelector('.editor-container').style.display = 'none';
-            }
+        .then(() => {
+            // Handle post update success
+            document.querySelector(`[data-postid="${postId}"] .post-content`).innerHTML = content.replace(/\n/g, '<br>');
+            // Go back to Posts view
+            document.querySelector('.posts-view').style.display = 'block';
+            document.querySelector('.editor-container').style.display = 'none';
         })
         .catch(error => {
             console.log("Content not updated.", error)
@@ -95,7 +95,7 @@ function pagePosts() {
 
 function renderLikes() {
     pagePosts().forEach(postId => {
-        fetch(`posts/${postId}/like`)
+        fetch(`${window.location.origin}/posts/like/${postId}`)
             .then(response => response.json())
             .then(likes => {
                 // Render Likes Count
@@ -115,13 +115,25 @@ function renderLikes() {
                 }
             });
     });
-
-    // Update likes every 5 seconds
-    setInterval(renderLikes, 5000);
 }
 
-function likeButton(postId, icon) {
-    fetch(`posts/${postId}/like`, {
+function animateLikeCount(postId) {
+    let likeElement = document.querySelector(`[data-postid="${postId}"] .post-likes`);
+    let likeButton = likeElement.querySelector('.like-button')
+    let likeCount = likeElement.querySelector('.like-count');
+    likeCount.style.animation = 'fade 0.5s';
+    if (!likeButton.classList.contains('liked')) {
+        likeButton.style.animation = 'jump-up 0.5s';
+    }
+    setTimeout(renderLikes, 100);
+    likeElement.addEventListener('animationend', function () {
+        likeButton.style.animation = '';
+        likeCount.style.animation = '';
+    });
+}
+
+function likeButton(postId) {
+    fetch(`${window.location.origin}/posts/like/${postId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -132,7 +144,7 @@ function likeButton(postId, icon) {
     })
         .then(response => {
             if (response.ok) {
-                renderLikes();
+                animateLikeCount(postId);
             }
         })
 }

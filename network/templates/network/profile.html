@@ -3,7 +3,8 @@
 {% block body %}
   {{ user.username }}
   {{ user.followers.count }} Followers
-  {{ user.following.count }} Following{% if user != request.user %}
+  {{ user.following.count }} Following
+  {% if user != request.user %}
     <button value="Follow">Follow</button>
   {% endif %}
 

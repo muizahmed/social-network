@@ -1,3 +1,11 @@
+body {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.navbar {
+    font-weight: bolder;
+}
+
 .posts-view {
     display: flex;
     flex-direction: column;
@@ -20,8 +28,43 @@
 .like-button {
     display: inline;
     cursor: pointer;
+    position: absolute;
 }
 
-.like-button:hover {
+.like-count {
+    margin-left: 20px;
+}
+
+.fa-thumbs-up:hover {
     color: #007bff;
 }
+
+/* Keyframes */
+
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+    @keyframes jump-up {
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
