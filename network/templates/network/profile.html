@@ -1,12 +1,18 @@
 {% extends 'network/layout.html' %}
 
 {% block body %}
-  {{ user.username }}
-  {{ user.followers.count }} Followers
-  {{ user.following.count }} Following
-  {% if user != request.user %}
-    <button value="Follow">Follow</button>
-  {% endif %}
+  <div class="container-div user-info">
+    <span class="username"><i class="fa-regular fa-circle-user"></i> {{ user.username }}</span>
+    <span class="date-joined"><i class="fa-regular fa-calendar"></i> Joined {{ user.date_joined.date }}</span>
+    <span><i class="fa-regular fa-pen-to-square"></i> {{ user.posts.all.count }} Total Posts</span>
+    <div class="follow-stats">
+      <span class="followers"><i class="fa-regular fa-heart"></i> {{ user.followers.count }} Followers</span>
+      <span class="following"><i class="fa-regular fa-square-plus"></i> {{ user.following.count }} Following</span>
+    </div>
+    {% if user != request.user %}
+      <button class="btn btn-primary follow-button" value="Follow">Follow</button>
+    {% endif %}
+  </div>
 
   {% if user.posts %}
     {% block posts %}

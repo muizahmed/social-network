@@ -2,10 +2,12 @@
 
 <div class="posts-view">
   {% for post in page_obj %}
-    <div class="post-container" data-postid="{{ post.id }}">
+    <div class="container-div post-container" data-postid="{{ post.id }}">
       <div class="post-metadata">
-        <a href="{% url 'profile_view' post.author %}"><span class="post-author">{{ post.author }}</span></a> ·
-        <span class="post-timestamp">{{ post.posted_at|format_date }}</span>
+        Posted by <a href="{% url 'profile_view' post.author %}"><span class="post-author">{{ post.author }}</span></a> ·
+        <span class="post-timestamp">{{ post.posted_at|format_date }}</span><span class="post-modified">{% if post.modified %}
+          · Edited ({{ post.modified_at|format_date }})
+        {% endif %}</span>
       </div>
       <div class="post-content">{{ post.content|linebreaksbr }}</div>
       <div class="post-likes">
@@ -15,7 +17,7 @@
       </div>
 
       {% if request.user == post.author %}
-        <button class="btn btn-sm btn-outline-primary edit-post" href="">Edit this post</button>
+        <div class="edit-post">Edit this post</div>
       {% endif %}
     </div>
   {% endfor %}

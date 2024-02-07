@@ -27,8 +27,8 @@ def post(request):
 
 
 def paginate_posts(request, posts):
-    ordered_posts = posts.order_by('-posted_at')
-    paginator = Paginator(ordered_posts, 10)
+    ordered_posts = posts.order_by('-modified_at')
+    paginator = Paginator(ordered_posts, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return page_obj
@@ -72,6 +72,7 @@ def get_post(request, post_id):
         data = json.loads(request.body)
         if data.get("content") is not None:
             post.content = data["content"]
+            post.modified = True
         post.save()
 
         return redirect('index')

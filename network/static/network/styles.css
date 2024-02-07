@@ -2,6 +2,7 @@
     --dark-theme-container: rgb(26, 26, 27);
     --dark-theme-container-border: rgb(52, 53, 54);
     --dark-theme-container-text: rgb(215, 218, 220);
+    --hover-color: lightcoral;
 }
 
 body {
@@ -25,26 +26,87 @@ body {
     color: var(--dark-theme-container-text) !important;
 }
 
+.container-div {
+    background-color: var(--dark-theme-container);
+    border: 1px solid var(--dark-theme-container-border);
+    border-radius: 5px;
+    color: var(--dark-theme-container-text);
+    display: flex;
+    flex-direction: column;
+}
+
+.container-div a {
+    color: var(--dark-theme-container-text);
+}
+
+.container-div a:hover {
+    color: var(--hover-color);
+}
+
 .posts-view {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
     margin: 40px;
 }
 
 .post-container {
-    background-color: var(--dark-theme-container) !important;
-    border: 1px solid var(--dark-theme-container-border);
-    border-radius: 5px;
-    color: var(--dark-theme-container-text) !important;
-    display: flex;
-    flex-direction: column;
     gap: 5px;
-    padding: 10px;
+    padding: 20px;
+}
+
+.post-container .post-content {
+    padding: 10px 0px;
+}
+
+.post-container .post-metadata,
+.post-container .post-likes {
+    font-size: smaller;
+    font-weight: lighter;
 }
 
 .editor-container {
     display: none;
+}
+
+.edit-post {
+    font-size: smaller;
+    text-decoration: underline;
+}
+
+.edit-post:hover {
+    color: var(--hover-color);
+    cursor: pointer;
+}
+
+.user-info {
+    background-image: linear-gradient(rgb(128, 122, 122) 50%, lightcoral 80%);
+    color: black;
+    gap: 10px;
+    margin: 20px 40px 0 40px;
+    padding: 20px;
+}
+
+.user-info .user-metadata {
+    display: grid;
+}
+
+.user-info .follow-stats {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.user-info .username {
+    font-weight: bolder;
+}
+
+.follow-button {
+    background-color: black;
+    border-color: black;
+    padding: 0px 20px;
+    width: fit-content;
 }
 
 .like-button {
@@ -58,7 +120,7 @@ body {
 }
 
 .fa-thumbs-up:hover {
-    color: #007bff;
+    color: var(--hover-color);
 }
 
 /* Keyframes */

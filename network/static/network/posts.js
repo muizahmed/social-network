@@ -3,10 +3,10 @@
     // Maintain Browser History
     window.addEventListener('popstate', function (event) {
         if (event.state === null) {
-            document.querySelector('.posts-view').style.display = 'block';
+            document.querySelector('.posts-view').style.display = 'flex';
             document.querySelector('.editor-container').style.display = 'none';
         }
-        if (event.state.view === 'editor') {
+        else if (event.state.view === 'editor') {
             document.querySelector('.posts-view').style.display = 'none';
             document.querySelector('.editor-container').style.display = 'block';
         }
@@ -20,7 +20,7 @@
     // Add click event listeners to buttons
     document.querySelectorAll('.edit-post').forEach(element => {
         element.addEventListener('click', function () {
-            document.querySelector('.post-container')
+            document.querySelector('.post-container');
             let postId = findParent(this, 'post-container').dataset.postid;
             editPost(postId);
         })
@@ -73,8 +73,9 @@ function savePost(postId, content) {
         .then(() => {
             // Handle post update success
             document.querySelector(`[data-postid="${postId}"] .post-content`).innerHTML = content.replace(/\n/g, '<br>');
+            document.querySelector(`[data-postid="${postId}"] .post-modified`).innerHTML = ' · Edited';
             // Go back to Posts view
-            document.querySelector('.posts-view').style.display = 'block';
+            document.querySelector('.posts-view').style.display = 'flex';
             document.querySelector('.editor-container').style.display = 'none';
         })
         .catch(error => {

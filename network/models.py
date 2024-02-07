@@ -25,6 +25,8 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="posts")
     posted_at = models.DateTimeField(auto_now_add=True, editable=False)
+    modified = models.BooleanField(default=False)
+    modified_at = models.DateTimeField(auto_now=True)
     content = models.TextField()  # Enforce word limit using validator at the form level
     likes = models.ManyToManyField('User', related_name="liked")
 
