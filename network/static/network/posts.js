@@ -14,7 +14,7 @@
 
     // Render Likes
     if (window.location.pathname != '/') {
-        renderLikes();
+        renderLikeIcons();
     }
 
     if (window.location.pathname.includes('profile/')) {
@@ -162,6 +162,7 @@ function like(postId) {
 function renderLikeIcons() {
     let likes = document.querySelectorAll('.post-likes')
     likes.forEach(like => {
+        let likeIcon = likes.querySelector
         if (like.dataset.liked === "True") {
             likeIcon.innerHTML = '<i class="fa-solid fa-thumbs-up"></i>';
         }
