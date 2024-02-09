@@ -48,7 +48,7 @@ def posts_view(request):
         posts = Post.objects.all()
 
     page_obj = paginate_posts(request, posts)
-    context = {"posts": posts, 'page_obj': page_obj}
+    context = {"posts": page_obj}
 
     return render(request, "network/posts.html", context)
 
