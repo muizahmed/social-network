@@ -134,7 +134,7 @@ function animateLikeCount(postId) {
     let likeCount = likeElement.querySelector('.like-count');
     let likes = parseInt(likeCount.innerHTML);
     if (dataset.liked === "True") {
-        dataset.followed = 'False';
+        dataset.liked = 'False';
         likes -= 1;
         likeCount.innerHTML = likes;
     }
