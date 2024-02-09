@@ -11,6 +11,10 @@ body {
     font-family: 'Quicksand', sans-serif;
 }
 
+.body {
+    padding: 20px;
+}
+
 .navbar {
     background-color: var(--dark-theme-container) !important;
     border-bottom: 1px solid var(--dark-theme-container-border);
@@ -48,7 +52,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 40px;
+    margin: 20px;
 }
 
 .post-container {
@@ -84,7 +88,7 @@ body {
     background-image: linear-gradient(rgb(128, 122, 122) 50%, lightcoral 80%);
     color: black;
     gap: 10px;
-    margin: 20px 40px 0 40px;
+    margin: 20px 20px 0 20px;
     padding: 20px;
 }
 
