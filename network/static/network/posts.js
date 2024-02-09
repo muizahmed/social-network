@@ -103,36 +103,39 @@ function pagePosts() {
     return postIdArray;
 }
 
-function renderLikes() {
-    pagePosts().forEach(postId => {
-        fetch(`${window.location.origin}/posts/like/${postId}`)
-            .then(response => response.json())
-            .then(likes => {
-                // Render Likes Count
-                let likeElement = document.querySelector(`[data-postid="${postId}"] .post-likes`);
-                let likeCount = likeElement.querySelector('.like-count');
-                likeCount.innerHTML = ` ${likes.like_count}`;
+// function renderLikes() {
+//     pagePosts().forEach(postId => {
+//         fetch(`${window.location.origin}/posts/like/${postId}`)
+//             .then(response => response.json())
+//             .then(likes => {
+//                 // Render Likes Count
+//                 let likeElement = document.querySelector(`[data-postid="${postId}"] .post-likes`);
+//                 let likeCount = likeElement.querySelector('.like-count');
+//                 likeCount.innerHTML = ` ${likes.like_count}`;
 
-                // Render Like Button styling
-                let likeIcon = likeElement.querySelector('.like-button');
-                if (likes.user_liked) {
-                    likeIcon.classList.add('liked');
-                    likeIcon.innerHTML = '<i class="fa-solid fa-thumbs-up"></i>';
-                }
-                else {
-                    likeIcon.classList.remove('liked');
-                    likeIcon.innerHTML = '<i class="fa-regular fa-thumbs-up"></i>';
-                }
-            });
-    });
-}
+//                 // Render Like Button styling
+//                 let likeIcon = likeElement.querySelector('.like-button');
+//                 if (likes.user_liked) {
+//                     likeIcon.classList.add('liked');
+//                     likeIcon.innerHTML = '<i class="fa-solid fa-thumbs-up"></i>';
+//                 }
+//                 else {
+//                     likeIcon.classList.remove('liked');
+//                     likeIcon.innerHTML = '<i class="fa-regular fa-thumbs-up"></i>';
+//                 }
+//             });
+//     });
+// }
 
-function animateLikeCount(postId) {
+function animateLikes(postId) {
     let likeElement = document.querySelector(`[data-postid="${postId}"] .post-likes`);
     let dataset = likeElement.dataset;
     let likeButton = likeElement.querySelector('.like-button')
     let likeCount = likeElement.querySelector('.like-count');
     let likes = parseInt(likeCount.innerHTML);
+    if (!dataset.liked === "True") {
+        likeButton.style.animation = 'jump-up 0.5s';
+    }
     if (dataset.liked === "True") {
         dataset.liked = 'False';
         likes -= 1;
@@ -144,9 +147,6 @@ function animateLikeCount(postId) {
         likeCount.innerHTML = likes;
     }
     likeCount.style.animation = 'fade 0.5s';
-    if (!dataset.liked === "True") {
-        likeButton.style.animation = 'jump-up 0.5s';
-    }
     setTimeout(renderLikeIcons, 100);
     likeElement.addEventListener('animationend', function () {
         likeButton.style.animation = '';
@@ -166,7 +166,7 @@ function like(postId) {
     })
         .then(response => {
             if (response.ok) {
-                animateLikeCount(postId);
+                animateLikes(postId);
             }
         })
 }
