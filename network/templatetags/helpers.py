@@ -1,8 +1,10 @@
 from django import template
 
-import datetime, timeago
+import datetime
+import timeago
 
 register = template.Library()
+
 
 @register.filter(name="format_date")
 def format_as_timeago(datetimeobj):
@@ -10,5 +12,9 @@ def format_as_timeago(datetimeobj):
     return timeago.format(datetimeobj, datetime.datetime.now())
 
 
+@register.filter(name="liked")
 def is_liked_by_user(post, user):
-
+    if post in user.liked.all():
+        return True
+    else:
+        return False
