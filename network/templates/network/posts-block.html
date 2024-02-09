@@ -1,13 +1,15 @@
 ﻿{% load helpers %}
 
 <div class="posts-view">
-  {% for post in page_obj %}
-    <div class="container-div post-container" data-postid="{{ post.id }}" data-liked="{{ user.liked_posts.filter(pk=self.pk).exists|yesno:'true,false' }}">
+  {% for post in posts %}
+    <div class="container-div post-container" data-postid="{{ post.id }}" data-liked="">
       <div class="post-metadata">
         Posted by <a href="{% url 'profile_view' post.author %}"><span class="post-author">{{ post.author }}</span></a> ·
-        <span class="post-timestamp">{{ post.posted_at|format_date }}</span><span class="post-modified">{% if post.modified %}
-          · Edited ({{ post.modified_at|format_date }})
-        {% endif %}</span>
+        <span class="post-timestamp">{{ post.posted_at|format_date }}</span><span class="post-modified">
+          {% if post.modified %}
+            · Edited ({{ post.modified_at|format_date }})
+          {% endif %}
+        </span>
       </div>
       <div class="post-content">{{ post.content|linebreaksbr }}</div>
       <div class="post-likes">
