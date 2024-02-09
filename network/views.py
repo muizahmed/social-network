@@ -57,10 +57,7 @@ def profile_view(request, username):
     user = User.objects.get(username=username)
     posts = user.posts.all()
     page_obj = paginate_posts(request, posts)
-    following = False
-    if request.user in user.follower.all():
-        following = True
-    context = {"user": user, "following": following, "posts": page_obj}
+    context = {"user": user, "posts": page_obj}
     return render(request, "network/profile.html", context)
 
 

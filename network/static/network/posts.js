@@ -159,9 +159,13 @@ function like(postId) {
         })
 }
 
+function renderLikeIcons() {
+    let likeIcons = document.querySelectorAll()
+}
+
 function renderFollowButton() {
     let followButton = document.querySelector('.follow-button');
-    if (document.querySelector('.user-info').dataset.followed === "true") {
+    if (document.querySelector('.user-info').dataset.followed === "True") {
         followButton.classList.add('disabled');
         followButton.innerHTML = 'Following';
     } else {
@@ -180,11 +184,11 @@ function follow(userId) {
         .then(response => {
             if (response.ok) {
                 let dataset = document.querySelector('.user-info').dataset;
-                if (dataset.followed === "true") {
-                    dataset.followed = 'false';
+                if (dataset.followed === "True") {
+                    dataset.followed = 'False';
                 }
                 else {
-                    dataset.followed = 'true'
+                    dataset.followed = 'True'
                 }
                 renderFollowButton();
             }
