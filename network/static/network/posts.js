@@ -17,20 +17,29 @@
         renderLikes();
     }
 
+    if (window.location.pathname.includes('profile/')) {
+        renderFollowButton();
+    }
+
     // Add click event listeners to buttons
     document.querySelectorAll('.edit-post').forEach(element => {
         element.addEventListener('click', function () {
-            document.querySelector('.post-container');
-            let postId = findParent(this, 'post-container').dataset.postid;
+            let postId = findParent(this, 'container-div').dataset.postid;
             editPost(postId);
         })
     })
 
     document.querySelectorAll('.like-button').forEach(element => {
         element.addEventListener('click', function () {
-            let postId = findParent(this, 'post-container').dataset.postid;
-            let icon = findParent(this, 'post-container').querySelector('.like-button')
-            likeButton(postId, icon);
+            let postId = findParent(this, 'container-div').dataset.postid;
+            like(postId);
+        })
+    })
+
+    document.querySelectorAll('.follow-button').forEach(element => {
+        element.addEventListener('click', function () {
+            let userId = findParent(this, 'container-div').dataset.userid;
+            follow(userId);
         })
     })
 })
@@ -133,7 +142,7 @@ function animateLikeCount(postId) {
     });
 }
 
-function likeButton(postId) {
+function like(postId) {
     fetch(`${window.location.origin}/posts/like/${postId}`, {
         method: 'PUT',
         headers: {
@@ -146,6 +155,38 @@ function likeButton(postId) {
         .then(response => {
             if (response.ok) {
                 animateLikeCount(postId);
+            }
+        })
+}
+
+function renderFollowButton() {
+    let followButton = document.querySelector('.follow-button');
+    if (document.querySelector('.user-info').dataset.followed === "true") {
+        followButton.classList.add('disabled');
+        followButton.innerHTML = 'Following';
+    } else {
+        followButton.classList.remove('disabled');
+        followButton.innerHTML = 'Follow';
+    }
+}
+
+function follow(userId) {
+    fetch(`${window.location.origin}/profile/follow/${userId}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            "userId": userId
+        })
+    })
+        .then(response => {
+            if (response.ok) {
+                let dataset = document.querySelector('.user-info').dataset;
+                if (dataset.followed === "true") {
+                    dataset.followed = 'false';
+                }
+                else {
+                    dataset.followed = 'true'
+                }
+                renderFollowButton();
             }
         })
 }

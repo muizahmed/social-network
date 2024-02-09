@@ -15,4 +15,5 @@ urlpatterns = [
     # Fetch Routes
     path("posts/<int:post_id>", views.get_post, name="get_post"),
     path("posts/like/<int:post_id>", views.like, name="like"),
+    path("profile/follow/<int:user_id>", views.follow, name="follow"),
 ]

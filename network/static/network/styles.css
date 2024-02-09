@@ -109,6 +109,11 @@ body {
     width: fit-content;
 }
 
+.follow-button.disabled {
+    background-color: grey;
+    border: none;
+}
+
 .like-button {
     cursor: pointer;
     display: inline;

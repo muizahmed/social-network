@@ -27,7 +27,7 @@ def post(request):
 
 
 def paginate_posts(request, posts):
-    ordered_posts = posts.order_by('-modified_at')
+    ordered_posts = posts.order_by('-modified_at', '-posted_at')
     paginator = Paginator(ordered_posts, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -55,9 +55,12 @@ def posts_view(request):
 
 def profile_view(request, username):
     user = User.objects.get(username=username)
-    posts =  user.posts.all()
+    posts = user.posts.all()
     page_obj = paginate_posts(request, posts)
-    context = {"user": user, "page_obj": page_obj}
+    following = False
+    if request.user in user.follower.all():
+        following = True
+    context = {"user": user, "following": following, "page_obj": page_obj}
     return render(request, "network/profile.html", context)
 
 
@@ -96,6 +99,23 @@ def like(request, post_id):
             request.user.liked.add(post)
         post.save()
         request.user.save()
+
+    return JsonResponse({"message": "Success"})
+
+
+@csrf_exempt
+def follow(request, user_id):
+    target = User.objects.get(pk=user_id)
+    user = request.user
+    if request.method == "PUT":
+        if target.follower.contains(user):
+            target.follower.remove(user)
+            user.following.remove(target)
+        else:
+            target.follower.add(user)
+            user.following.add(target)
+        target.save()
+        user.save()
 
     return JsonResponse({"message": "Success"})
 
