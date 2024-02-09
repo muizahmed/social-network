@@ -162,7 +162,9 @@ function like(postId) {
 function renderLikeIcons() {
     let likes = document.querySelectorAll('.post-likes')
     likes.forEach(like => {
-        
+        if (like.dataset.liked === "True") {
+            console.log("This is Liked!")
+        }
     })
 }
 
