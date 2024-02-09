@@ -129,8 +129,15 @@ function renderLikes() {
 
 function animateLikeCount(postId) {
     let likeElement = document.querySelector(`[data-postid="${postId}"] .post-likes`);
+    let dataset = likeElement.dataset;
     let likeButton = likeElement.querySelector('.like-button')
     let likeCount = likeElement.querySelector('.like-count');
+    if (dataset.liked === "True") {
+        dataset.followed = 'False';
+    }
+    else {
+        dataset.liked = 'True'
+    }
     likeCount.style.animation = 'fade 0.5s';
     if (!likeButton.classList.contains('liked')) {
         likeButton.style.animation = 'jump-up 0.5s';
