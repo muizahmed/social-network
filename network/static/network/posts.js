@@ -132,11 +132,16 @@ function animateLikeCount(postId) {
     let dataset = likeElement.dataset;
     let likeButton = likeElement.querySelector('.like-button')
     let likeCount = likeElement.querySelector('.like-count');
+    let likes = parseInt(likeCount.innerHTML);
     if (dataset.liked === "True") {
         dataset.followed = 'False';
+        likes -= 1;
+        likeCount.innerHTML = likes;
     }
     else {
-        dataset.liked = 'True'
+        dataset.liked = 'True';
+        likes += 1;
+        likeCount.innerHTML = likes;
     }
     likeCount.style.animation = 'fade 0.5s';
     if (!likeButton.classList.contains('liked')) {
