@@ -12,7 +12,9 @@ def format_as_timeago(datetimeobj):
     return timeago.format(datetimeobj, datetime.datetime.now())
 
 
-@register.filter(name="liked")
+def is_followed_by_user()
+
+@register.filter(name="is_liked")
 def is_liked_by_user(post, user):
     if post in user.liked.all():
         return True

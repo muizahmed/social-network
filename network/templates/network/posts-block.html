@@ -2,7 +2,7 @@
 
 <div class="posts-view">
   {% for post in posts %}
-    <div class="container-div post-container" data-postid="{{ post.id }}" data-liked="">
+    <div class="container-div post-container" data-postid="{{ post.id }}" data-liked="{{ post|is_liked:request.user }}">
       <div class="post-metadata">
         Posted by <a href="{% url 'profile_view' post.author %}"><span class="post-author">{{ post.author }}</span></a> ·
         <span class="post-timestamp">{{ post.posted_at|format_date }}</span><span class="post-modified">
