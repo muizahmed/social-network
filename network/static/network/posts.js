@@ -163,7 +163,10 @@ function renderLikeIcons() {
     let likes = document.querySelectorAll('.post-likes')
     likes.forEach(like => {
         if (like.dataset.liked === "True") {
-            console.log("This is Liked!")
+            likeIcon.innerHTML = '<i class="fa-solid fa-thumbs-up"></i>';
+        }
+        else {
+            likeIcon.innerHTML = '<i class="fa-regular fa-thumbs-up"></i>';
         }
     })
 }
