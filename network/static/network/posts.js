@@ -133,15 +133,15 @@ function animateLikes(postId) {
     let likeButton = likeElement.querySelector('.like-button')
     let likeCount = likeElement.querySelector('.like-count');
     let likes = parseInt(likeCount.innerHTML);
-    if (!dataset.liked === "True") {
-        likeButton.style.animation = 'jump-up 0.5s';
-    }
+    
+    // Add animation and change like count
     if (dataset.liked === "True") {
         dataset.liked = 'False';
         likes -= 1;
         likeCount.innerHTML = likes;
     }
     else {
+        likeButton.style.animation = 'jump-up 0.5s';
         dataset.liked = 'True';
         likes += 1;
         likeCount.innerHTML = likes;
