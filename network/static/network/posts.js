@@ -160,7 +160,10 @@ function like(postId) {
 }
 
 function renderLikeIcons() {
-    let likeIcons = document.querySelectorAll()
+    let likes = document.querySelectorAll('.post-likes')
+    likes.forEach(like => {
+        
+    })
 }
 
 function renderFollowButton() {
