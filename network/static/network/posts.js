@@ -160,9 +160,9 @@ function like(postId) {
 }
 
 function renderLikeIcons() {
-    let likes = document.querySelectorAll('.post-likes')
+    let likes = document.querySelectorAll('.post-likes');
     likes.forEach(like => {
-        let likeIcon = likes.querySelector
+        let likeIcon = like.querySelector('.like-button');
         if (like.dataset.liked === "True") {
             likeIcon.innerHTML = '<i class="fa-solid fa-thumbs-up"></i>';
         }
