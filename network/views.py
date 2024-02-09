@@ -40,10 +40,8 @@ def posts_view(request):
 
     # View for posts from Following
     if request.path == reverse('following_view'):
-        following = list((request.user).followings.all())
-        print(following)
+        following = list(request.user.following.all())
         posts = Post.objects.filter(author__in=following)
-        print(posts)
 
     # All Posts view
     else:
