@@ -60,7 +60,7 @@ def profile_view(request, username):
     following = False
     if request.user in user.follower.all():
         following = True
-    context = {"user": user, "following": following, "page_obj": page_obj}
+    context = {"user": user, "following": following, "posts": page_obj}
     return render(request, "network/profile.html", context)
 
 
