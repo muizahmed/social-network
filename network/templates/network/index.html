@@ -2,14 +2,12 @@
 
 {% block body %}
   {% if user.is_authenticated %}
-
     <form action="{% url 'post' %}" class="create-post" method="post">
       {% csrf_token %}
       <div class="form-group">
-        <textarea autofocus class="form-control" name="content" placeholder="What's on your mind?"></textarea>
+        <textarea autofocus class="form-control post-editor" name="content" placeholder="What's on your mind?" rows="5"></textarea>
       </div>
       <input class="btn btn-primary" type="submit" value="Post" />
     </form>
-
   {% endif %}
 {% endblock %}

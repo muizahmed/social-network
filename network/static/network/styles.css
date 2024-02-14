@@ -15,6 +15,8 @@ body {
     padding: 20px;
 }
 
+
+/* Navigation Bar (Bootstrap) */
 .navbar {
     background-color: var(--dark-theme-container) !important;
     border-bottom: 1px solid var(--dark-theme-container-border);
@@ -26,6 +28,7 @@ body {
     color: var(--dark-theme-container-text) !important;
 }
 
+/* Site-wide classes */
 .page-link {
     background-color: var(--dark-theme-container) !important;
     color: var(--dark-theme-container-text) !important;
@@ -48,6 +51,7 @@ body {
     color: var(--hover-color);
 }
 
+/* Posts View */
 .posts-view {
     display: flex;
     flex-direction: column;
@@ -70,6 +74,7 @@ body {
     font-weight: lighter;
 }
 
+/* Edit View */
 .editor-container {
     display: none;
 }
@@ -84,6 +89,12 @@ body {
     cursor: pointer;
 }
 
+.post-editor {
+    background-color: aliceblue;
+    resize: none;
+}
+
+/* Profile View */
 .user-info {
     background-image: linear-gradient(rgb(128, 122, 122) 50%, lightcoral 80%);
     color: black;
@@ -107,6 +118,7 @@ body {
     font-weight: bolder;
 }
 
+/* Buttons (Follow & Like) */
 .follow-button {
     background-color: black;
     border-color: black;
@@ -134,7 +146,6 @@ body {
 }
 
 /* Keyframes */
-
 @keyframes fade {
     0% {
         opacity: 1;

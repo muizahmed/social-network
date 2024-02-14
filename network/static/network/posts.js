@@ -12,7 +12,7 @@
         }
     })
 
-    // Render Likes
+    // Render Like and Follow Buttons upon load
     if (window.location.pathname != '/') {
         renderLikeIcons();
     }
@@ -72,6 +72,7 @@ function savePost(postId, content) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            CS
         },
         body: JSON.stringify({
             content: content
@@ -103,37 +104,13 @@ function pagePosts() {
     return postIdArray;
 }
 
-// function renderLikes() {
-//     pagePosts().forEach(postId => {
-//         fetch(`${window.location.origin}/posts/like/${postId}`)
-//             .then(response => response.json())
-//             .then(likes => {
-//                 // Render Likes Count
-//                 let likeElement = document.querySelector(`[data-postid="${postId}"] .post-likes`);
-//                 let likeCount = likeElement.querySelector('.like-count');
-//                 likeCount.innerHTML = ` ${likes.like_count}`;
-
-//                 // Render Like Button styling
-//                 let likeIcon = likeElement.querySelector('.like-button');
-//                 if (likes.user_liked) {
-//                     likeIcon.classList.add('liked');
-//                     likeIcon.innerHTML = '<i class="fa-solid fa-thumbs-up"></i>';
-//                 }
-//                 else {
-//                     likeIcon.classList.remove('liked');
-//                     likeIcon.innerHTML = '<i class="fa-regular fa-thumbs-up"></i>';
-//                 }
-//             });
-//     });
-// }
-
 function animateLikes(postId) {
     let likeElement = document.querySelector(`[data-postid="${postId}"] .post-likes`);
     let dataset = likeElement.dataset;
     let likeButton = likeElement.querySelector('.like-button')
     let likeCount = likeElement.querySelector('.like-count');
     let likes = parseInt(likeCount.innerHTML);
-    
+
     // Add animation and change like count
     if (dataset.liked === "True") {
         dataset.liked = 'False';
