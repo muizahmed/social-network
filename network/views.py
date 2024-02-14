@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -53,6 +54,7 @@ def posts_view(request):
     return render(request, "network/posts.html", context)
 
 
+@never_cache
 def profile_view(request, username):
     user = User.objects.get(username=username)
     posts = user.posts.all()
