@@ -29,7 +29,7 @@ def post(request):
 
 def paginate_posts(request, posts):
     ordered_posts = posts.order_by('-modified_at', '-posted_at')
-    paginator = Paginator(ordered_posts, 10)
+    paginator = Paginator(ordered_posts, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return page_obj

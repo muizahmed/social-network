@@ -72,7 +72,6 @@ function savePost(postId, content) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            CS
         },
         body: JSON.stringify({
             content: content
@@ -182,12 +181,18 @@ function follow(userId) {
         .then(response => {
             if (response.ok) {
                 let dataset = document.querySelector('.user-info').dataset;
+                let followers = document.querySelector('.follower-count');
+                let followerCount = parseInt(followers.innerHTML);
+                console.log(followers);
                 if (dataset.followed === "True") {
+                    followerCount -= 1;
                     dataset.followed = 'False';
                 }
                 else {
+                    followerCount += 1;
                     dataset.followed = 'True'
                 }
+                followers.innerHTML = followerCount;
                 renderFollowButton();
             }
         })
