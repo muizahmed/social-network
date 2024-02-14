@@ -1,6 +1,7 @@
 import json
 from django import forms
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_exempt
@@ -11,11 +12,11 @@ from django.urls import reverse
 
 from .models import User, Post
 
-
+@login_required
 def index(request):
     return render(request, "network/index.html")
 
-
+@login_required
 def post(request):
 
     # Retrieve new post from HTML form and add to database
