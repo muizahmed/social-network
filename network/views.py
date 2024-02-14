@@ -12,9 +12,13 @@ from django.urls import reverse
 
 from .models import User, Post
 
-@login_required
+
 def index(request):
-    return render(request, "network/index.html")
+    if request.user.is_authenticated:
+        return render(request, "network/index.html")
+    else:
+        return redirect('posts_view')
+
 
 @login_required
 def post(request):
@@ -65,6 +69,7 @@ def profile_view(request, username):
 
 
 @csrf_exempt
+@login_required
 def get_post(request, post_id):
     post = Post.objects.get(pk=post_id)
 
@@ -82,6 +87,7 @@ def get_post(request, post_id):
 
 
 @csrf_exempt
+@login_required
 def like(request, post_id):
     post = Post.objects.get(pk=post_id)
     liked = request.user.liked.all()
@@ -104,6 +110,7 @@ def like(request, post_id):
 
 
 @csrf_exempt
+@login_required
 def follow(request, user_id):
     target = User.objects.get(pk=user_id)
     user = request.user

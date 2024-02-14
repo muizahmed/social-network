@@ -14,15 +14,21 @@ def format_as_timeago(datetimeobj):
 
 @register.filter(name="is_following")
 def is_followed_by_user(user, target):
-    if target in user.following.all():
-        return True
-    else:
+    if not user.is_authenticated:
         return False
+    else:
+        if target in user.following.all():
+            return True
+        else:
+            return False
 
 
 @register.filter(name="is_liked")
 def is_liked_by_user(post, user):
-    if post in user.liked.all():
-        return True
-    else:
+    if not user.is_authenticated:
         return False
+    else:
+        if post in user.liked.all():
+            return True
+        else:
+            return False

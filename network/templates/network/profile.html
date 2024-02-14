@@ -10,7 +10,7 @@
       <span class="followers"><i class="fa-regular fa-heart"></i> <span class="follower-count">{{ user.follower.all.count }}</span> Followers</span>
       <span class="following"><i class="fa-regular fa-square-plus"></i> <span class="follower-count">{{ user.following.all.count }}</span> Following</span>
     </div>
-    {% if user != request.user %}
+    {% if user != request.user and request.user.is_authenticated %}
       <button class="btn btn-primary follow-button" value="Follow">Follow</button>
     {% endif %}
   </div>
