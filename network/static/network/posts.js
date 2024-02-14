@@ -22,13 +22,12 @@
     }
 
     // Add click event listeners to buttons
-    if (this.requestStorageAccess.us)
-        document.querySelectorAll('.edit-post').forEach(element => {
-            element.addEventListener('click', function () {
-                let postId = findParent(this, 'container-div').dataset.postid;
-                editPost(postId);
-            })
+    document.querySelectorAll('.edit-post').forEach(element => {
+        element.addEventListener('click', function () {
+            let postId = findParent(this, 'container-div').dataset.postid;
+            editPost(postId);
         })
+    })
 
     document.querySelectorAll('.like-button').forEach(element => {
         element.addEventListener('click', function () {
