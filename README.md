@@ -20,32 +20,12 @@ Watch a demo of the project on [YouTube](https://youtu.be/2r5dcN7a0dU).
 
 To use the application, follow these steps:
 
-1. Clone the repository:
-
-    ```bash
-    git clone <repository-url>
-    ```
-
-2. Install the necessary dependencies. It's recommended to use a virtual environment:
-
-    ```bash
-    cd twitter-like-social-network
-    pip install -r requirements.txt
-    ```
-
-3. Run migrations to set up the database:
-
-    ```bash
-    python manage.py migrate
-    ```
-
-4. Start the Django development server:
-
-    ```bash
-    python manage.py runserver
-    ```
-
-5. Access the application in your web browser at `http://127.0.0.1:8000/`.
+1. Clone the repository: `git clone https://github.com/muizahmed/social-network.git`
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run migrations: `python manage.py migrate`
+4. Use `createsuperuser` to create admin user
+5. Start the development server: `python manage.py runserver`
+6. Access the site at http://127.0.0.1:8000/ and the admin interface at http://127.0.0.1:8000/admin/
 
 ## Technologies Used
 
